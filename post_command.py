@@ -1,12 +1,13 @@
 import os
 import requests
 
-def count_post_commands(log_json):
-    count = 0
+def count_method_occurrences(log_json):
+    method_count = {}
     for command in log_json:
-        if command['method'] == 'POST':
-            count += 1
-    return count
+        method = command.get('method')
+        if method:
+            method_count[method] = method_count.get(method, 0) + 1
+    return method_count
 
 def fetch_log_json(session_id, username, access_key):
     url = f"https://{username}:{access_key}@saucelabs.com/rest/v1/{username}/jobs/{session_id}/assets/log.json"
@@ -30,8 +31,9 @@ def main():
 
     log_json = fetch_log_json(session_id, username, access_key)
     if log_json:
-        post_commands_count = count_post_commands(log_json)
-        print(f"Number of POST commands in log.json: {post_commands_count}")
+        method_count = count_method_occurrences(log_json)
+        for method, count in method_count.items():
+            print(f"breakdown of commands is: {method_count}")
 
 if __name__ == "__main__":
     main()
