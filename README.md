@@ -7,4 +7,5 @@ To use this script, you need to have Python installed on your machine, and you n
 `export SESSION_ID=<sauce labs session id>`
 
 You can then execute the script with
+
 `python3 post_command.py`
